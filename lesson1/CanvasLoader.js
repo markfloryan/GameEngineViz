@@ -85,7 +85,7 @@ $(document).ready(function() {
         var object = storageLoad(filename);
         if (object == null) {
             // not yet in storage
-            // requests are currently synchronous so 
+            // requests are currently synchronous so should not occur?
             var newobject = {
                 anchors: anchor_array,
                 readonly: read,
@@ -103,7 +103,4 @@ $(document).ready(function() {
             storageSave(filename, object);
         }
     });
-
-
-
 });

@@ -36,6 +36,7 @@
             <div class="row h-100">
                 <div class="col">
 <iframe id="gameframe" src="canvas.php" width="800" height="600" scrolling="no"></iframe>
+<button id="back" type="button" class="btn btn-primary btn-block mt-3" style="display:none">Congratulations! Click here to return to the menu.</button>
                 </div>
 
                 <div class="col" style="background-color: #232323;">

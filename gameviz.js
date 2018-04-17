@@ -57,6 +57,28 @@ document.getElementById("reset").onclick = function() {
     // get id, append lessonNumber
     // storage.removeItem
 
+    // CONFIRMATION BLOCK
+
+    if (confirm("WARNING: Are you sure you want to reset this lesson?")) {
+        var frameDOM = $("#gameframe").contents();
+        frameDOM.find("script").each(function() {
+            var filename = $(this).attr('id');
+            if ((filename == "loader") || (filename == "jquery")){
+                // do nothing
+            } else {
+                sessionStorage.removeItem(filename + lessonNumber);
+            }
+
+        });
+        // refreshes page NOT from cache, just in case
+        // might not really be necessary
+        location.reload(true);
+    }
+};
+
+document.getElementById("back").onclick = function() {
+    // i dunno if this actually works??
+    location.href = "..";
 };
 
 // save undomanager and text
@@ -176,7 +198,15 @@ $(document).ready(function() {
         $(this).addClass("active");
     });
 
-    // reset button to overwrite sessionStorage with originals
+    // completion function
+    function completion() {
+        // upon completion
+        alert("Congratulations! You have completed this lesson.");
+        $("#back").toggle();
+    }
+
+    // add event listener for completion
+    $(this).one("complete", completion);
 
 });
 

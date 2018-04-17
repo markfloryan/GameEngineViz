@@ -35,6 +35,12 @@ class LabOneGame extends Game{
                 if(this.coin3.collidesWith(this.mario)) {
                         this.coin3.dispatchEvent(new CustomEvent("pickup", {detail: this.coin3}));
                 }
+
+            // win condition
+            if (true) {
+                var complete = new Event("complete");
+                window.parent.document.dispatchEvent(complete);
+            }
 	}
 
 	draw(g){

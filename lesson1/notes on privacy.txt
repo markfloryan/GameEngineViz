@@ -1,0 +1,33 @@
+// testVar is private
+if(pressedKeys.contains(32)) {
+    console.log(this.mario.getTest());
+    this.mario.setTest(12);
+    console.log(this.mario.testVar);
+}
+
+// can delete public access
+if(pressedKeys.contains(39)) {
+    this.mario.getTest = undefined;
+}
+
+// public access can not be restored
+// this means that access cannot be temporarily barred... or does it?
+if(pressedKeys.contains(37)) {
+    this.mario.getTest = function() {
+        return this.mario.testVar;
+    }
+}
+
+have the coins' locations be set by the constructor
+constructor destroys setter function
+
+what about setting mario's position?
+in this case it would probably be more difficult to manually set location
+could check in setPos and make sure that they don't move too much in a single frame? but that kinda sucks
+at a certain point, they must have direct access to Mario's position for this particular exercise
+unless we give them weird incremental functions (ie. moveXbyOne())
+but the more specific the solution, the less helpful the actual exercise is
+because in essence we would be solving it for them and having them just
+fill in values as needed
+
+performance?

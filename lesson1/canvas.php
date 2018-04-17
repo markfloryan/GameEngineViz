@@ -43,7 +43,7 @@ foreach($fileitems as $fileitem) {
 
 <script type="text/javascript" id="ArrayList.js"></script>
 <script type="text/javascript" id="GameClock.js"></script>
-<script type="text/javascript" id="Gamepad.js" data-readonly></script>
+<script type="text/javascript" id="Gamepad.js"></script>
 <script type="text/javascript" id="DisplayObject.js"></script>
 <script type="text/javascript" id="DisplayObjectContainer.js"></script>
 <script type="text/javascript" id="Sprite.js"></script>
