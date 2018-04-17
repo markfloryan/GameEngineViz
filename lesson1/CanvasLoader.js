@@ -18,6 +18,21 @@ $(document).ready(function() {
         return sessionStorage.hasOwnProperty(fileName + lessonNumber);
     };
 
+    // ajax function
+    function saveFile(filename, scriptholder, result) {
+        // should store read-only attribute
+        var fileinfo = {
+            text: result,
+            // anchors: [[10, 0], [15, 0]]            
+        };
+        var thing = scriptholder.attr("data-readonly");
+        if (thing) {
+            fileinfo.readonly = true;
+        }
+        // sessionStorage.setItem(filename, JSON.stringify(fileinfo));
+        storageSave(filename, fileinfo);
+    };
+
     $("script").each(function() {
         var scriptholder = $(this);
         var filename = $(this).attr('id');
@@ -33,16 +48,7 @@ $(document).ready(function() {
                     // if file is in storage, don't load anything from server
                     if (storageHas(filename)) {
                     } else {
-                        // store found file
-                        // TODO: different lesson numbers
-                        // should store read-only attribute
-                        var fileinfo = { text: result };
-                        var thing = scriptholder.attr("data-readonly");
-                        if (thing) {
-                            fileinfo.readonly = true;
-                        }
-                        // sessionStorage.setItem(filename, JSON.stringify(fileinfo));
-                        storageSave(filename, fileinfo);
+                        saveFile(filename, scriptholder, result);
                     }
                 },
                 error: function(xhr) {
@@ -55,13 +61,7 @@ $(document).ready(function() {
                             if (storageHas(filename)) {
                                 // nothing
                             } else {
-                                // store found file
-                                var fileinfo = { text: result };
-                                if (scriptholder.attr("data-readonly")) {
-                                    fileinfo.readonly = true;
-                                }
-                                // sessionStorage.setItem(filename, JSON.stringify(fileinfo));
-                                storageSave(filename, fileinfo);
+                                saveFile(filename, scriptholder, result);
                             }                          
                         }
                     });
@@ -72,6 +72,38 @@ $(document).ready(function() {
             });
         }
     });
+
+    // loading from config.txt into storage
+    // this is after loading the initial texts
+    // otherwise it interferes with avoiding overwriting existing files
+    $("meta").each(function() {
+        var filename = $(this).attr('data-filename');
+        var anchor_array = JSON.parse($(this).attr('data-anchors'));
+        var read = $(this).attr('data-readonly');
+        var invis = $(this).attr('data-invisible');
+
+        var object = storageLoad(filename);
+        if (object == null) {
+            // not yet in storage
+            // requests are currently synchronous so 
+            var newobject = {
+                anchors: anchor_array,
+                readonly: read,
+                invisible: invis
+            };
+            storageSave(filename, newobject);
+        } else {
+            // modify existing object
+            // ONLY if these parameters do not already exist
+            // ie. should not overwrite anchors if they have moved
+            if (!object.hasOwnProperty("anchors")) object.anchors = anchor_array;
+            object.readonly = read;
+            object.invisible = invis;
+            // do i need this save?
+            storageSave(filename, object);
+        }
+    });
+
 
 
 });

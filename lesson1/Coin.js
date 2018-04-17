@@ -7,8 +7,12 @@
  * */
 class Coin extends Sprite {
 
-    constructor(id){
+    constructor(id, posX, posY){
         super(id, "Coin.png");
+        this.setX(posX);
+        this.setY(posY);
+        this.setX = undefined;
+        this.setY = undefined;
         this.eventTarget = new EventTarget();
         this.addEventListener("pickup", this.onPickup, false);
     }

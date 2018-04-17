@@ -8,19 +8,13 @@ class LabOneGame extends Game{
 	constructor(canvas){
 		super("Lab One Game", 800, 600, canvas);
 		this.mario = new Sprite("Mario", "Mario.png");
-                this.coin1 = new Coin("Coin1"); // is the id really necessary?
-                this.coin2 = new Coin("Coin2"); // is the id really necessary?
-                this.coin3 = new Coin("Coin3"); // is the id really necessary?
+                this.coin1 = new Coin("Coin1", 300, 200); // is the id really necessary?
+                this.coin2 = new Coin("Coin2", 500, 300); 
+                this.coin3 = new Coin("Coin3", 100, 300); 
 
 		this.xPos = 0;
 		this.yPos = 0;
                 
-                this.coin1.x = 300;
-                this.coin1.y = 200;
-                this.coin2.x = 500;
-                this.coin2.y = 300;
-                this.coin3.x = 100;
-                this.coin3.y = 500;
 	}
 
 	update(pressedKeys, gamepads){

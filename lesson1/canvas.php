@@ -4,6 +4,37 @@
     <head>
     <!-- lesson number here! -->
         <title id="lessonNumber">1</title>
+<?php
+$config = file_get_contents('config.txt');
+$fileitems = explode("\n", $config);
+
+function mapExp($e) {
+    return explode(",", $e);
+}
+
+foreach($fileitems as $fileitem) {
+
+    $attribute = explode("/", $fileitem);
+    // $attribute[0] is filename
+    // $attribute[1] is anchor array
+    // !! assume that anchor column is always 0
+    // thus each pair is start/end of a single range
+    // $attribute[2] is read-only
+    // $attribute[3] is invisible
+
+    $length = count($attribute);
+    if ($length != 4) {
+        continue;
+    }
+    
+    // should end up 2D array
+    $anchorarray = array_map("mapExp", explode(";", $attribute[1]));
+
+    echo '
+    <meta data-filename="' . $attribute[0] . '" data-anchors=\'' . JSON_encode($anchorarray) . '\' data-readonly="' . $attribute[2] . '" data-invisible="' . $attribute[3] . '" </meta>
+    ';
+}
+?>
     </head>
     <body>
         <canvas id="game" width="800" height="600">

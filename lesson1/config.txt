@@ -1,0 +1,2 @@
+Lesson.js/0,32;37,50/false/false
+Coin.js/0,0;0,0/true/true
