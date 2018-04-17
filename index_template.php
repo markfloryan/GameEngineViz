@@ -35,7 +35,7 @@
         <div class="container-fluid h-100">
             <div class="row h-100">
                 <div class="col">
-<iframe id="gameframe" src="canvas.html" width="800" height="600" scrolling="no"></iframe>
+<iframe id="gameframe" src="canvas.php" width="800" height="600" scrolling="no"></iframe>
                 </div>
 
                 <div class="col" style="background-color: #232323;">
@@ -44,6 +44,7 @@
                     <script src="../src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
                     <div class="container-fluid mt-2">
                         <div class="row float-left ml-2">
+                            <button id="reset" type="button" class="btn btn-danger float-left mr-1"><span class="glyphicon glyphicon-exclamation-sign"></span></button>
                             <ul class="nav nav-pills">
                                 <li class="nav-item">
                                     <a id="help" class="nav-link" href="#">help.txt</a>

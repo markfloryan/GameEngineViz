@@ -1,5 +1,7 @@
 var editor = ace.edit("editor");
 var Range = ace.require("../ace/range").Range;
+var Anchor = ace.require("../ace/anchor").Anchor;
+var activeAnchors = [];
 var currentFile = "";
 editor.setTheme("../ace/theme/twilight");
 editor.setFontSize(15);
@@ -32,6 +34,7 @@ document.getElementById("execute").onclick = function () {
     // refresh game iframe
     // this is so strange
     // TODO: disabling execute button?
+    // TODO: save anchors
     // save opened file to storage (other files are saved upon context switch)
     // currfile scope?
     if (currentFile) {
@@ -41,6 +44,19 @@ document.getElementById("execute").onclick = function () {
         storageSave(currentFile, oldinfo);
     }
     document.getElementById('gameframe').src += '';
+};
+
+document.getElementById("reset").onclick = function() {
+    // prompt the system to reload data in storage
+    // how to delete appropriate files?
+    // TODO: potentially move every lesson into their own storage file? eg. Lesson1 has each file as property etc.
+
+    // method:
+    // get DOM of iframe
+    // to get all filenames, read through every script tag except loader/jquery
+    // get id, append lessonNumber
+    // storage.removeItem
+
 };
 
 // save undomanager and text
@@ -54,6 +70,13 @@ editor.switchContext = function(currfile, newfile) {
         var oldinfo = storageLoad(currfile);
         oldinfo.text = this.getValue();
         oldinfo.undo = this.getSession().getUndoManager();
+        var newAnchors = [];
+        activeAnchors.forEach(function(e) {
+            // return array of anchor pairs to array of integer pairs
+            var newPair = [e[0].getPosition().row, e[1].getPosition().row];
+            newAnchors.push(newPair);
+        });
+        oldinfo.anchors = newAnchors;
         storageSave(currfile, oldinfo);
     }
     
@@ -65,16 +88,35 @@ editor.switchContext = function(currfile, newfile) {
         this.getSession().setUndoManager(new ace.UndoManager());
     }
     // this is gross
-    if (newinfo.hasOwnProperty("readonly")) {
-        this.setReadOnly(true);
-    } else {
+    if (newinfo.readonly === "false") {
         this.setReadOnly(false);
+    } else {
+        this.setReadOnly(true);
     }
+
     // refactor the text file stuff please
     if (newinfo.filetype == "text") {
         this.session.setMode("../ace/mode/text");
     } else {
         this.session.setMode("../ace/mode/javascript");
+    }
+
+    if (newinfo.hasOwnProperty("anchors")) {
+        // clear array
+        activeAnchors.length = 0;
+
+        newinfo.anchors.forEach(function(e) {
+            // anchors are read in pairs
+            // column is thus assumed to always be 0
+            // push new anchors
+            var start = Number(e[0]);
+            var start_anchor = editor.session.getDocument().createAnchor(start, 0);
+            var end = Number(e[1]);
+            var end_anchor = editor.session.getDocument().createAnchor(end, 0);
+            var pair = [start_anchor, end_anchor];
+
+            activeAnchors.push(pair);
+        });
     }
     
     // don't forget to set currentFile rip
@@ -145,12 +187,16 @@ editor.commands.on("exec", function(e) {
     // for each range:
     //      prevent read-only disabled commands
     //      allow insertstring at the END of each range and only with \n
+    activeAnchors.forEach(function(pair) {
+        console.log(pair[0].getPosition().row + ", " + pair[1].getPosition().row);
+    });
     var ranges = new Array();
     ranges.push(new Range(0, 0, 5, 0));
     ranges.push(new Range(editor.session.getLength() - 1, 0, editor.session.getLength(), 0));
     ranges.forEach(function(range) {
         if (select.intersects(range)) {
             if (!e.command.readOnly) {
+                // TODO: allow undo
                 if (e.command.name === "insertstring" && e.args === "\n" && 
                     (select.isStart(select.end.row, select.end.column)) &&
                     range.isEnd(rowCol.row, rowCol.column)) {
