@@ -137,6 +137,13 @@ editor.switchContext = function(currfile, newfile) {
             var end_anchor = editor.session.getDocument().createAnchor(end, 0);
             var pair = [start_anchor, end_anchor];
 
+            // create readonly highlights
+            var range = new Range(start, 0, end, 0);
+            // bind to anchor so that the highlights move
+            range.start = start_anchor;
+            range.end = end_anchor;
+            editor.session.addMarker(range, "readonly-highlight");
+
             activeAnchors.push(pair);
         });
     }
@@ -149,6 +156,7 @@ $(document).ready(function() {
     // is this where we might mark read-only?
     // store sessionStorage item as object with both text and read-only flag
     // as well as undomanager?
+    /*
     $(".nav-link").each(function() {
         //TODO: fix all of this. init unnecessary except for text files
         var filename = $(this).text();
@@ -169,7 +177,7 @@ $(document).ready(function() {
             xhttp.send();
         }
     });
-    
+    */
     /*
      * setting initial to help.txt...
      * concerns:
@@ -219,17 +227,19 @@ editor.commands.on("exec", function(e) {
     //      allow insertstring at the END of each range and only with \n
     activeAnchors.forEach(function(pair) {
         console.log(pair[0].getPosition().row + ", " + pair[1].getPosition().row);
-    });
-    var ranges = new Array();
-    ranges.push(new Range(0, 0, 5, 0));
-    ranges.push(new Range(editor.session.getLength() - 1, 0, editor.session.getLength(), 0));
-    ranges.forEach(function(range) {
+        // create range
+        var range = new Range(pair[0].getPosition().row, 0, pair[1].getPosition().row, 0);
         if (select.intersects(range)) {
             if (!e.command.readOnly) {
-                // TODO: allow undo
                 if (e.command.name === "insertstring" && e.args === "\n" && 
                     (select.isStart(select.end.row, select.end.column)) &&
                     range.isEnd(rowCol.row, rowCol.column)) {
+                    // prevent anchor from growing with this command instead of expanding editable space
+                    // moves anchor back a row after adding a row
+                    pair[1].setPosition(pair[1].getPosition.row - 1, 0);
+                }
+                else if (e.command.name === "undo") {
+                    // let the command through, even in read-only segments
                 } else {
                     // maybe just have to disable delete at edge of range
                     e.preventDefault();
@@ -238,4 +248,5 @@ editor.commands.on("exec", function(e) {
             }
         }
     });
+    // ranges.push(new Range(editor.session.getLength() - 1, 0, editor.session.getLength(), 0));
 });

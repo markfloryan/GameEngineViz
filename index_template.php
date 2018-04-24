@@ -28,6 +28,11 @@
                 }
             .col {
             }
+            .readonly-highlight {
+                background-color: red;
+                opacity: 0.2;
+                position: absolute;
+            }
         </style>
     </head>
 

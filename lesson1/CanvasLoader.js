@@ -20,19 +20,32 @@ $(document).ready(function() {
 
     // ajax function
     function saveFile(filename, scriptholder, result) {
-        // should store read-only attribute
         var fileinfo = {
             text: result,
-            // anchors: [[10, 0], [15, 0]]            
         };
         var thing = scriptholder.attr("data-readonly");
         if (thing) {
             fileinfo.readonly = true;
         }
-        // sessionStorage.setItem(filename, JSON.stringify(fileinfo));
         storageSave(filename, fileinfo);
     };
 
+    // request help.txt from server
+    $.ajax({ 
+        url: "help.txt",
+        async: true,
+        dataType: "text",
+        success: function(result) {
+            storageSave("help.txt", {
+                text: result,
+                readonly: true,
+                filetype: "text"
+            });
+        }
+    });
+
+    // if not already in user storage,
+    // request files from server
     $("script").each(function() {
         var scriptholder = $(this);
         var filename = $(this).attr('id');
