@@ -1,3 +1,7 @@
 Welcome to Lesson 1!
 
-Mario is stuck!
+Mario is stuck! You'll have to help him move by coding in movement options for him!
+
+Start out by viewing the Lesson.js file. You'll notice that you cannot edit code in the red areas; however, viewing code in these read-only areas might prove useful!
+Open the developer console using CTRL + SHIFT + I. Here, you can see console outputs coming from the game. Currently, if you press a key, you'll see its corresponding key code printed to the screen!
+Use this in conjunction with this.mario's moveX() and moveY() functions to pick up all the coins!

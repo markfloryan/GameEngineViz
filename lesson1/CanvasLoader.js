@@ -49,7 +49,7 @@ $(document).ready(function() {
     $("script").each(function() {
         var scriptholder = $(this);
         var filename = $(this).attr('id');
-        console.log("" + filename);
+        // console.log("" + filename);
         if ((filename == "loader") || (filename == "jquery")){
             // do nothing
         } else {

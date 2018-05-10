@@ -51,6 +51,7 @@ foreach($fileitems as $fileitem) {
 <script type="text/javascript" id="Game.js"></script>
 
 
+<script type="text/javascript" id="Mario.js"></script>
 <script type="text/javascript" id="Coin.js"></script>
 <script type="text/javascript" id="Lesson.js"></script>
 

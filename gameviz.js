@@ -70,7 +70,6 @@ document.getElementById("reset").onclick = function() {
             }
 
         });
-        // refreshes page NOT from cache, just in case
         // might not really be necessary
         location.reload(true);
     }
@@ -153,49 +152,18 @@ editor.switchContext = function(currfile, newfile) {
 
 $(document).ready(function() {
 
-    // is this where we might mark read-only?
-    // store sessionStorage item as object with both text and read-only flag
-    // as well as undomanager?
-    /*
+    // invisibility
+    // TODO: this should probably be handled before PHP loads these buttons up
     $(".nav-link").each(function() {
-        //TODO: fix all of this. init unnecessary except for text files
         var filename = $(this).text();
-        if (filename == "help.txt") {
-            var xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    // GOTTA BE STRINGS WHEE
-                    var fileinfo = { 
-                        text: this.responseText,
-                        readonly: true,
-                        filetype: "text"
-                    };
-                    storageSave(filename, fileinfo);
-                }
-            };
-            xhttp.open("GET", filename, true);
-            xhttp.send();
+        var info = storageLoad(filename);
+        if ((info != null) && (info.invisible == "true\n")) {
+            $(this).hide();
         }
     });
-    */
-    /*
-     * setting initial to help.txt...
-     * concerns:
-     *      different localStorage variables -help.txt + lesson number etc.
-     *      loading in the localStorage variable - ajax
-     *
-    editor.session.setMode("../ace/mode/text");
-    editor.setReadOnly(true);
-    editor.setValue(sessionStorage.getItem("help.txt").text, 1);
-    $("#help").addClass("active");
-    */
 
-
-
-    // SHOULD STORE UNDOMANAGER FOR CONVENIENCE
     $(".nav-link").on("click", function() {
-        // *** marking files as read-only?
-        // **** periodic saving
+        // periodic saving?
         // setInterval(--function--, 60000);
 
         editor.switchContext(currentFile, $(this).text());
@@ -226,7 +194,7 @@ editor.commands.on("exec", function(e) {
     //      prevent read-only disabled commands
     //      allow insertstring at the END of each range and only with \n
     activeAnchors.forEach(function(pair) {
-        console.log(pair[0].getPosition().row + ", " + pair[1].getPosition().row);
+        // console.log(pair[0].getPosition().row + ", " + pair[1].getPosition().row);
         // create range
         var range = new Range(pair[0].getPosition().row, 0, pair[1].getPosition().row, 0);
         if (select.intersects(range)) {
