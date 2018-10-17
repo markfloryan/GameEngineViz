@@ -115,8 +115,16 @@ class TweenDemo extends Game {
 			this.tweenJuggler.add(basicTween);
 		}
 
+
 		if (pressedKeys.contains(73)) {
-			this.emitters.push(new Emitter(new Tuple(400, 300), Tuple.fromAngle(1.5*Math.PI, 0.5), Math.PI/8, 5000, 2))
+                        var template = new ParticleTemplate("particle.png", 1.2, 200, Tuple.fromAngle(1.5*Math.PI, 0.5), new Tuple(Math.random() * -0.002 + 0.001, Math.random() * -0.002), false);
+			this.emitters.push(new Emitter(template, new Tuple(400, 300), Math.PI/8, 1000, 2));
+                }
+		
+
+                if (pressedKeys.contains(74)) {
+			var template = new ParticleTemplate("pumpkin_head.png", 0.1, 200, Tuple.fromAngle(0, 5), new Tuple(0,0), true);
+			this.emitters.push(new Emitter(template, new Tuple(500, 300), Math.PI/4, 50, 8));
 		}
 
 

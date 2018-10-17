@@ -1,18 +1,21 @@
 class Particle extends Sprite{
 
-  constructor(size, lifespan, fade, point, velocity, acceleration){
-      super("particle", "particle.png");
-      this.size = Math.random() * size || Math.random() * 10 + 15;
-      this.lifespan = Math.random() * lifespan || Math.random() * 500; 
-      this.timeLeft = lifespan;
-      this.position = point || new Tuple(0, 0);
-      this.velocity = velocity || new Tuple(0, 0);
-      this.acceleration = new Tuple(Math.random() * -0.002 + 0.001, Math.random() * -0.002);
-      this.fade = fade * Math.random() || 0.1 * Math.random();
-      //this.rotation = Math.random()*360;
+  constructor(particleTemplate, initPoint, initVelocity){
+      super("particle", particleTemplate.image);
+      this.image = particleTemplate.image;
+      this.size = particleTemplate.size || Math.random() * 10 + 15;
+      this.lifespan = Math.random() * particleTemplate.lifespan || Math.random() * 500; 
+      this.timeLeft = particleTemplate.lifespan;
+      this.position = initPoint || new Tuple(0, 0);
+      this.velocity = initVelocity || new Tuple(0, 0);
+      this.acceleration = particleTemplate.acceleration || new Tuple(0, 0);
+      //this.fade = fade * Math.random() || 0.1 * Math.random();
+      if(particleTemplate.rotate){
+	      this.rotation = Math.random()*360;
+      }
       this.isDead = false;
-      this.scaleX = size;
-      this.scaleY = size;
+      this.scaleX = this.size;
+      this.scaleY = this.size;
   }
 
   move(){
@@ -31,14 +34,24 @@ class Particle extends Sprite{
 	super.draw(g);
   }
  
+}
 
+class ParticleTemplate {
+     constructor(image, size, lifespan, velocity, acceleration, rotate){
+	      this.image = image;
+	      this.size = size;
+	      this.lifespan = lifespan; 
+	      this.velocity = velocity || new Tuple(0, 0);
+	      this.acceleration = acceleration || new Tuple(0, 0);
+              this.rotate = rotate;
+      }
 }
 
 class Emitter{
-    constructor(source, velocity, spread, maxParticles, emissionRate){
+    constructor(particleTemplate, source, spread, maxParticles, emissionRate){
 	  this.particles = [];
+          this.particleTemplate = particleTemplate;
 	  this.position = source; // Tuple
-	  this.velocity = velocity; // Tuple
 	  this.spread = spread || Math.PI / 32; // possible angles = velocity +/- spread
           this.maxParticles = maxParticles || 20000;
           this.emissionRate = emissionRate || 10;
@@ -46,10 +59,11 @@ class Emitter{
     
     emitParticle(){
 	// Use an angle randomized over the spread so we have more of a "spray"
-	  var angle = this.velocity.getAngle() + this.spread - (Math.random() * this.spread * 2);
+          var particle = this.particleTemplate; 
+	  var angle = particle.velocity.getAngle() + this.spread - (Math.random() * this.spread * 2);
 	 
 	  // The magnitude of the emitter's velocity
-	  var magnitude = this.velocity.getMagnitude();
+	  var magnitude = particle.velocity.getMagnitude();
 	 
 	  // The emitter's position
 	  var position = new Tuple(this.position.x, this.position.y);
@@ -58,9 +72,12 @@ class Emitter{
 	  var velocity = Tuple.fromAngle(angle, magnitude);
 	 
 	  // return our new Particle!
-	  return new Particle(1.2, 200, Math.abs(angle), position,velocity);
+	  //return new Particle(1.2, 200, position,velocity);
+
+
+	  return new Particle(particle, position, velocity);
     }
- 
+
     addNewParticles(){
 	// if we're at our max, stop emitting.
 	  if (this.particles.length > this.maxParticles) return;
