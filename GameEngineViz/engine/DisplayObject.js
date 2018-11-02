@@ -29,6 +29,12 @@ class DisplayObject{
         this.getY = function() { return posY; };
         this.setX = function(x) { posX = x; };
         this.setY = function(y) { posY = y; };
+        let velY = 0;
+        let velX = 0;
+        this.getVelX = function() { return velX; };
+        this.getVelY = function() { return velY; };
+        this.setVelX = function(x) { velX = x; };
+        this.setVelY = function(y) { velY = y; };
 
         let testVar = 10;
         this.getTest = function() { return testVar; };
@@ -54,7 +60,7 @@ class DisplayObject{
      * Invoked every frame, manually for now, but later automatically if this DO is in DisplayTree
      */
     update(pressedKeys, gamepads){
-
+    
     }
 
     /**
