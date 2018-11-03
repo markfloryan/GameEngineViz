@@ -13,6 +13,8 @@ class PumpkinHead extends Sprite {
      */
     update(pressedKeys, gamePads){
         super.update(pressedKeys, gamePads);
+        this.setX(this.getX() + this.getVelX());
+	this.setY(this.getY() + this.getVelY());
     }
 
     /**
@@ -22,12 +24,12 @@ class PumpkinHead extends Sprite {
         super.draw(g);
     }
 
-    moveX(distance) {
-        this.setX(this.getX() + distance);
+    moveX(velocity) {
+        this.setVelX(velocity);
     }
     
-    moveY(distance) {
-        this.setY(this.getY() + distance);
-        }
+    moveY(velocity) {
+        this.setVelY(velocity);
+    }
 }
 

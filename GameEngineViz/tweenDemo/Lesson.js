@@ -10,15 +10,15 @@ class TweenDemo extends Game {
 		// These are the objects within the game.
 		this.pumpkin = new PumpkinHead("Pumpkin Head", 0, 0);
 		this.pumpkin = new PumpkinHead("Pumpkin Head", 0, 0);
+                this.addChild(this.pumpkin);
+                this.water = new WaterBody(canvas, window.innerWidth, window.innerHeight/2, 75, this);
 
 
 		this.xPos = 0;
 		this.yPos = 0;
-                //this.particles = [];
  
-// Add one emitter located at `{ x : 100, y : 230}` from the origin (top left)
-// that emits at a velocity of `2` shooting out from the right (angle `0`)
                 this.emitters = [];
+                console.log(canvas)
 
 	}
 	
@@ -27,14 +27,23 @@ class TweenDemo extends Game {
 	update(pressedKeys, gamepads) {
 		super.update(pressedKeys);
 		this.pumpkin.update(pressedKeys);
+		this.water.update(pressedKeys);
 		this.tweenJuggler.update();
+                var tempEmitters = [];
 		// for each emitter
 		for (var i = 0; i < this.emitters.length; i++) {
                     this.emitters[i].addNewParticles();
-                    this.emitters[i].plotParticles(800, 600);
+		    if(!this.emitters[i].isDead){
+                        tempEmitters.push(this.emitters[i]);
+                    }
+
                 } 
+                this.emitters = tempEmitters;
 
-
+                if (pressedKeys.size() == 0){
+                	this.pumpkin.moveX(0);
+                        this.pumpkin.moveY(0);
+                }
 
 
 
@@ -56,7 +65,33 @@ class TweenDemo extends Game {
                         basicTween.addEventListener('onTweenComplete', this);
 
 		}
+		if (pressedKeys.contains(37)) {
+			this.pumpkin.moveX(-2);
+		}
+                if (pressedKeys.contains(39)) {
+			this.pumpkin.moveX(2);
+		}
 
+ 		if (pressedKeys.contains(38)) {
+			this.pumpkin.moveY(-2);
+		}
+                if (pressedKeys.contains(40)) {
+			this.pumpkin.moveY(2);
+		}
+
+                if (pressedKeys.contains(75)) {
+			this.pumpkin.moveX(-4);
+		}
+                if (pressedKeys.contains(186)) {
+			this.pumpkin.moveX(4);
+		}
+
+ 		if (pressedKeys.contains(79)) {
+			this.pumpkin.moveY(-4);
+		}
+                if (pressedKeys.contains(76)) {
+			this.pumpkin.moveY(4);
+		}
 
 		if (pressedKeys.contains(66)) {
 			var basicTween = new Tween(this.pumpkin);
@@ -116,16 +151,18 @@ class TweenDemo extends Game {
 		}
 
 
-		if (pressedKeys.contains(73)) {
-                        var template = new ParticleTemplate("particle.png", 1.2, 200, Tuple.fromAngle(1.5*Math.PI, 0.5), new Tuple(Math.random() * -0.002 + 0.001, Math.random() * -0.002), false);
-			this.emitters.push(new Emitter(template, new Tuple(400, 300), Math.PI/8, 1000, 2));
-                }
+		//if (pressedKeys.contains(73)) {
+              //          var template = new ParticleTemplate("particle.png", 1.2, 200, Tuple.fromAngle(1.5*Math.PI, 0.5), new Tuple(Math.random() * -0.002 + 0.001, Math.random() * -0.002), false);
+		//	this.emitters.push(new Emitter(template, new Tuple(400, 300), Math.PI/8, 1000, 2, 1000000000));
+               // }
 		
 
                 if (pressedKeys.contains(74)) {
 			var template = new ParticleTemplate("pumpkin_head.png", 0.1, 200, Tuple.fromAngle(0, 5), new Tuple(0,0), true);
-			this.emitters.push(new Emitter(template, new Tuple(500, 300), Math.PI/4, 50, 8));
+			this.emitters.push(new Emitter(template, new Tuple(500, 300), Math.PI/4, 50, 8,1000000000));
 		}
+
+ 
 
 
 
@@ -138,7 +175,6 @@ class TweenDemo extends Game {
 	 */
 	draw(g) {
 		g.clearRect(0, 0, this.width, this.height);
-               // drawParticles(this.particles, this.canvas);
 		super.draw(g);
 		g.translate(this.xPos, this.yPos);
 		this.pumpkin.draw(g);
@@ -146,6 +182,7 @@ class TweenDemo extends Game {
                     this.emitters[i].drawParticles(g);
                 } 
 		g.translate(-1 * this.xPos, -1 * this.yPos);
+                this.water.draw(g);
 	}
 
 
@@ -176,3 +213,9 @@ if (drawingCanvas.getContext) {
 	var game = new TweenDemo(drawingCanvas);
 	game.start();
 }
+
+
+
+
+
+

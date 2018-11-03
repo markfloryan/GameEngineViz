@@ -1,6 +1,6 @@
 class Particle extends Sprite{
 
-  constructor(particleTemplate, initPoint, initVelocity){
+  constructor(particleTemplate, initPoint, initVelocity, initAlpha){
       super("particle", particleTemplate.image);
       this.image = particleTemplate.image;
       this.size = particleTemplate.size || Math.random() * 10 + 15;
@@ -8,6 +8,8 @@ class Particle extends Sprite{
       this.timeLeft = particleTemplate.lifespan;
       this.position = initPoint || new Tuple(0, 0);
       this.velocity = initVelocity || new Tuple(0, 0);
+      this.alpha = initAlpha || 1;
+      this.initAlpha = this.alpha;
       this.acceleration = particleTemplate.acceleration || new Tuple(0, 0);
       //this.fade = fade * Math.random() || 0.1 * Math.random();
       if(particleTemplate.rotate){
@@ -23,7 +25,7 @@ class Particle extends Sprite{
       this.position.add(this.velocity);
       this.setX(this.position.x);
       this.setY(this.position.y);
-      this.alpha = (this.timeLeft*0.01)/this.lifespan;
+      this.alpha = ((this.timeLeft*0.01)/this.lifespan) * this.initAlpha;
       this.timeLeft = this.timeLeft - 1;
       if(this.timeLeft<0){
           this.isDead = true;
@@ -37,25 +39,30 @@ class Particle extends Sprite{
 }
 
 class ParticleTemplate {
-     constructor(image, size, lifespan, velocity, acceleration, rotate){
+     constructor(image, size, lifespan, velocity, acceleration, rotate, initAlpha){
 	      this.image = image;
 	      this.size = size;
 	      this.lifespan = lifespan; 
 	      this.velocity = velocity || new Tuple(0, 0);
 	      this.acceleration = acceleration || new Tuple(0, 0);
               this.rotate = rotate;
+              this.initAlpha = initAlpha;
       }
 }
 
 class Emitter{
-    constructor(particleTemplate, source, spread, maxParticles, emissionRate, lifetime){
+    constructor(particleTemplate, source, spread, maxParticles, emissionRate, lifetime, lowerX, upperX, lowerY, upperY){
 	  this.particles = [];
           this.particleTemplate = particleTemplate;
 	  this.position = source; // Tuple
 	  this.spread = spread || Math.PI / 32; // possible angles = velocity +/- spread
           this.maxParticles = maxParticles || 20000;
           this.emissionRate = emissionRate || 10;
-          this.lifetime = lifetime;
+          this.lifetime = lifetime || Infinity;
+          this.lowerX = lowerX || 0;
+          this.upperX = upperX || 800;
+          this.lowerY = lowerY || 0;
+          this.upperY = upperY || 600;
           this.isDead = false;
     }
     
@@ -77,7 +84,7 @@ class Emitter{
 	  //return new Particle(1.2, 200, position,velocity);
 
 
-	  return new Particle(particle, position, velocity);
+	  return new Particle(particle, position, velocity, particle.initAlpha);
     }
 
     addNewParticles(){
@@ -93,37 +100,33 @@ class Emitter{
 	
     }
 
-    plotParticles(boundsX, boundsY) {
-	  // a new array to hold particles within our bounds
+   
+
+    drawParticles(g){
+  // a new array to hold particles within our bounds
 	  var currentParticles = [];
-	 
-	  for (var i = 0; i < this.particles.length; i++) {
-	    var particle = this.particles[i];
+
+        for (var i = 0; i < this.particles.length; i++) {
+	     var particle = this.particles[i];
 	    var pos = particle.position;
+
+   
 	 
 	    // If we're out of bounds, drop this particle and move on to the next
-	    if (pos.x < 0 || pos.x > boundsX || pos.y < 0 || pos.y > boundsY || particle.isDead) continue;
+	    if (pos.x < this.lowerX || pos.x > this.upperX || pos.y < this.lowerY || pos.y > this.upperY || particle.isDead) continue;
 	 
 	    // Move our particles
 	    particle.move();
 	 
 	    // Add this particle to the list of current particles
 	    currentParticles.push(particle);
-	  }
-	 
-	  // Update our global particles, clearing room for old particles to be collected
-	  this.particles = currentParticles;
-    }
-
-    drawParticles(g){
-        for (var i = 0; i < this.particles.length; i++) {
-	    var particle = this.particles[i];
             particle.draw(g);
         }
+// Update our global particles, clearing room for old particles to be collected
+	  this.particles = currentParticles;
 	this.lifetime = this.lifetime - 1;
    
       	if(this.lifetime<0){
-          console.log("DEAD");
 	  this.isDead = true;
       	}
     }

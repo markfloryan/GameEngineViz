@@ -37,6 +37,8 @@ class WaterBody extends Sprite{
 
 	draw(g){
             super.draw(g);
+            this.oldAlpha = this.ctx.globalAlpha;
+            this.ctx.globalAlpha *= 0.5;
 
 	    for(var i = 0; i < this.wavesNum; i++){    
 		var diff = this.waves[i].targetHeight - this.waves[i].height;
@@ -86,6 +88,7 @@ class WaterBody extends Sprite{
 		    this.ctx.fill();
 		}
 	    }
+            this.ctx.globalAlpha = this.oldAlpha;
 	   
 	}
 
@@ -97,21 +100,18 @@ class WaterBody extends Sprite{
                     var spriteX = sprite.getX();
                     var box = sprite.getHitbox();
                     var midSprite = spriteX + box.width/2;
-                    if(box.y + box.height >= this.height && box.y < this.height && sprite.getVelY()>0){
-		            console.log("down");
+                    if(box.y + box.height >= this.height && box.y < this.height && sprite.getVelY() != 0){
 		            var wave = Math.floor(this.wavesNum/(this.width/midSprite));
-			    this.waves[wave].speed -= sprite.getVelY()*2;
-
-                        var template = new ParticleTemplate("water_particle.png", 0.1, 200, Tuple.fromAngle(1.5*Math.PI, Math.abs(sprite.getVelY()*3.5)), new Tuple(Math.random() * -0.002 + 0.001, Math.random() +1), false);
-			this.lesson.emitters.push(new Emitter(template, new Tuple(midSprite,this.waves[wave].pos.y+5), Math.PI/2, 25, 3, 30));
-		     } else if (box.y + box.height >= this.height && box.y < this.height && sprite.getVelY()<0){
-		            console.log("up");
-		            var wave = Math.floor(this.wavesNum/(this.width/midSprite));
-			    this.waves[wave].speed -= sprite.getVelY()*2;
-
-                        var template = new ParticleTemplate("water_particle.png", 0.1, 200, Tuple.fromAngle(1.5*Math.PI, Math.abs(sprite.getVelY()*3)), new Tuple(Math.random() * -0.002 + 0.001, Math.random() +1), false);
-			this.lesson.emitters.push(new Emitter(template, new Tuple(midSprite,this.waves[wave].pos.y+5), Math.PI/2, 25, 3, 30));
+                            if (wave > 1 && wave < this.wavesNum-1){
+			    this.waves[wave].speed -= sprite.getVelY();
+			    this.waves[wave+1].speed -= sprite.getVelY();
+			    this.waves[wave-1].speed -= sprite.getVelY();
+var template = new ParticleTemplate("water_particle.png", 0.1, Math.abs(sprite.getVelY())*3, Tuple.fromAngle(1.5*Math.PI, Math.abs(sprite.getVelY()*2)), new Tuple(Math.random() * -0.002 + 0.001, Math.random() + 1), false, 0.5);
+			this.lesson.emitters.push(new Emitter(template, new Tuple(midSprite,this.waves[wave].pos.y), Math.PI/2, 25, Math.abs(sprite.getVelY()), Math.abs(sprite.getVelY())*5));
 		     }
+                            }
+
+                        
                 }
        }
 
