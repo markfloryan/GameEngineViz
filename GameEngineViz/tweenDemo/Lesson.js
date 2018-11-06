@@ -1,9 +1,10 @@
 "use strict";
 
+
 class TweenDemo extends Game {
 
 	// initialization
-	constructor(canvas) {
+	constructor(canvas, shadowCanvas) {
 		super("Lab One Game", 800, 600, canvas);
 
 		this.tweenJuggler = new TweenJuggler();
@@ -12,13 +13,21 @@ class TweenDemo extends Game {
 		this.pumpkin = new PumpkinHead("Pumpkin Head", 0, 0);
                 this.addChild(this.pumpkin);
                 this.water = new WaterBody(canvas, window.innerWidth, window.innerHeight/2, 75, this);
+                this.s = shadowCanvas.getContext('2d');
+		this.valsX = [];
+                this.valsY = [];
+for(var i = 0; i < 20; i++){
+
+this.valsX.push(Math.random()*800);
+this.valsY.push(Math.random()*300);
+}
 
 
 		this.xPos = 0;
 		this.yPos = 0;
  
                 this.emitters = [];
-                console.log(canvas)
+
 
 	}
 	
@@ -175,6 +184,9 @@ class TweenDemo extends Game {
 	 */
 	draw(g) {
 		g.clearRect(0, 0, this.width, this.height);
+    g.fillStyle = '#003';
+
+		g.fillRect(0, 0, this.width, this.height);
 		super.draw(g);
 		g.translate(this.xPos, this.yPos);
 		this.pumpkin.draw(g);
@@ -183,6 +195,23 @@ class TweenDemo extends Game {
                 } 
 		g.translate(-1 * this.xPos, -1 * this.yPos);
                 this.water.draw(g);
+                // Make it black
+		//this.s.clearRect(0, 0, this.width, this.height);
+  // darken(g,0, 0, 800, 600, '#003', 0.5);
+
+//darken(this.s,0, 0, 800, 600, '#000', 0.5);
+//ligthenGradient(g,460, 200, 120);
+//ligthenGradient(g,200, 50, 80);
+//ligthenGradient(g,500, 240, 50);
+//ligthenGradient(g,300, 300, 80);
+//ligthenGradient(g,10, 300, 200);
+ligthenGradient(g,10, 10, 500);
+for(var i = 0; i < 20; i++){
+ligthenGradient(g,this.valsX[i], this.valsY[i], 8)
+}
+
+
+
 	}
 
 
@@ -207,15 +236,102 @@ class TweenDemo extends Game {
 function tick() {
 	game.nextFrame();
 }
-
+function darken(ctx,x, y, w, h, darkenColor, amount) {
+    ctx.fillStyle = darkenColor;
+    ctx.globalAlpha = amount;
+    ctx.fillRect(x, y, w, h);
+    ctx.globalAlpha = 1;
+}
+function ligthenGradient(ctx,x, y, radius) {
+    ctx.save();
+    ctx.globalCompositeOperation = 'lighter';
+    var rnd = 0.05 * Math.sin(1.1 * Date.now() / 1000);
+    radius = radius * (1 + rnd);
+    var radialGradient = ctx.createRadialGradient(x, y, 0, x, y, radius);
+    radialGradient.addColorStop(0.0, '#BB9');
+    radialGradient.addColorStop(0.2 + rnd, '#AA8');
+    radialGradient.addColorStop(0.7 + rnd, '#330');
+    radialGradient.addColorStop(0.90, '#110');
+    radialGradient.addColorStop(1, '#000');
+    ctx.fillStyle = radialGradient;
+    ctx.beginPath();
+    ctx.arc(x, y, radius, 0, 2 * Math.PI);
+    ctx.fill();
+    ctx.restore();
+}
+// Create shadow canvas
+var shadowCanvas = document.getElementById('1')
 var drawingCanvas = document.getElementById('game');
+
 if (drawingCanvas.getContext) {
-	var game = new TweenDemo(drawingCanvas);
+	var game = new TweenDemo(drawingCanvas, shadowCanvas);
 	game.start();
 }
 
+var bleh = false;
+
+if(bleh){
+
+// init canvas
+var     canvas = $( 'canvas' )               
+  ,        ctx = canvas[1].getContext( '2d' ) // world
+  ,       ctx2 = canvas[2].getContext( '2d' ) // fog
+
+  ,      mDown = false
+  ,         r1 = 100
+  ,         r2 = 300
+  ,    density = .4
+  , hideOnMove = true
+  ,   hideFill = 'rgba( 0, 0, 0, .7 )'
+  ,    overlay = 'rgba( 0, 0, 0, 1 )'
+  ;
+
+// black out the canvas
+ctx.fillStyle = overlay;
+ctx.fillRect( 0, 0, 1280, 800 );
+
+// set up our "eraser"
+ctx.globalCompositeOperation = 'destination-out';
+
+canvas.last()
+  .on( 'mousemove', function( ev, ev2 ){
+    ev2 && ( ev = ev2 );
+    console.log("hello")
+    var pX = ev.pageX
+      , pY = ev.pageY
+      ;
+
+    // reveal wherever we drag
+    var radGrd = ctx.createRadialGradient( pX, pY, r1, pX, pY, r2 );
+    radGrd.addColorStop(       0, 'rgba( 0, 100, 0,  1 )' );
+    radGrd.addColorStop( density, 'rgba( 0, 100, 0, .1 )' );
+    radGrd.addColorStop(       1, 'rgba( 0, 1000, 0,  0 )' );
+    
+    ctx.fillStyle = radGrd;
+    ctx.fillRect( pX - r2, pY - r2, r2*2, r2*2 );
+
+    // partially hide the entire map and re-reval where we are now
+    ctx2.globalCompositeOperation = 'source-over';
+    ctx2.clearRect( 0, 0, 1280, 800 );
+    ctx2.fillStyle = hideFill;
+    ctx2.fillRect ( 0, 0, 1280, 800 );
+
+    var radGrd = ctx.createRadialGradient( pX, pY, r1, pX, pY, r2 );
+    radGrd.addColorStop(  0, 'rgba( 0, 100, 0,  1 )' );
+    radGrd.addColorStop( .8, 'rgba( 0, 100, 0, .1 )' );
+    radGrd.addColorStop(  1, 'rgba( 0, 1000, 0,  0 )' );
+
+    ctx2.globalCompositeOperation = 'destination-out';
+    ctx2.fillStyle = radGrd;
+       
+
+    ctx2.fillRect( pX - r2, pY - r2, r2*2, r2*2 );
+ 
+ 
+  })
+  .trigger( 'mousemove', {pageX: 150, pageY:150 });
 
 
-
+}
 
 

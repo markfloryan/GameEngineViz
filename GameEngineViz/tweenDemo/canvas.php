@@ -37,9 +37,22 @@ foreach($fileitems as $fileitem) {
 ?>
     </head>
     <body>
-        <canvas id="game" width="800" height="600">
+<style>
+canvas{
+  position: absolute;
+  top     : 0px;
+  left    : 0px;
+  z-index : 100;
+}
+
+</style>
+  <canvas id="game" width="800" height="600">
             <p>Your browser doesn't support canvas.</p>
         </canvas>
+<canvas id="1" width="800" height="600"></canvas>
+<canvas id="2" width="800" height="600"></canvas>
+
+   
 
 <script type="text/javascript" id="ArrayList.js"></script>
 <script type="text/javascript" id="Tuple.js"></script>
