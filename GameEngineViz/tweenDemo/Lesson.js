@@ -189,6 +189,9 @@ this.valsY.push(Math.random()*300);
 		g.fillRect(0, 0, this.width, this.height);
 		super.draw(g);
 		g.translate(this.xPos, this.yPos);
+for(var i = 0; i < 20; i++){
+ligthenGradient(g,this.valsX[i], this.valsY[i], 8)
+}
 		this.pumpkin.draw(g);
                 for (var i = 0; i < this.emitters.length; i++) {
                     this.emitters[i].drawParticles(g);
@@ -206,9 +209,7 @@ this.valsY.push(Math.random()*300);
 //ligthenGradient(g,300, 300, 80);
 //ligthenGradient(g,10, 300, 200);
 ligthenGradient(g,10, 10, 500);
-for(var i = 0; i < 20; i++){
-ligthenGradient(g,this.valsX[i], this.valsY[i], 8)
-}
+
 
 
 
