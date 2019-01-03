@@ -74,6 +74,7 @@ this.valsY.push(Math.random()*300);
                         basicTween.addEventListener('onTweenComplete', this);
 
 		}
+		// arrow keys
 		if (pressedKeys.contains(37)) {
 			this.pumpkin.moveX(-2);
 		}
