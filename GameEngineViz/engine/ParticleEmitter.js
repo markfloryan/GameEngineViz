@@ -94,8 +94,6 @@ class Emitter{
 	
     }
 
-   
-
     drawParticles(g){
         // a new array to hold particles within our bounds
         var currentParticles = [];
