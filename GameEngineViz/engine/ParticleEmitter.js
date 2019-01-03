@@ -40,13 +40,13 @@ class Particle extends Sprite{
 
 class ParticleTemplate {
      constructor(image, size, lifespan, velocity, acceleration, rotate, initAlpha){
-	      this.image = image;
-	      this.size = size;
-	      this.lifespan = lifespan; 
-	      this.velocity = velocity || new Tuple(0, 0);
-	      this.acceleration = acceleration || new Tuple(0, 0);
-              this.rotate = rotate;
-              this.initAlpha = initAlpha;
+         this.image = image;
+         this.size = size;
+         this.lifespan = lifespan; 
+	 this.velocity = velocity || new Tuple(0, 0);
+         this.acceleration = acceleration || new Tuple(0, 0);
+         this.rotate = rotate;
+         this.initAlpha = initAlpha;
       }
 }
 
@@ -67,7 +67,7 @@ class Emitter{
     }
     
     emitParticle(){
-	// Use an angle randomized over the spread so we have more of a "spray"
+	  // Use an angle randomized over the spread so we have more of a "spray"
           var particle = this.particleTemplate; 
 	  var angle = particle.velocity.getAngle() + this.spread - (Math.random() * this.spread * 2);
 	 
@@ -79,20 +79,14 @@ class Emitter{
 	 
 	  // New velocity based off of the calculated angle and magnitude
 	  var velocity = Tuple.fromAngle(angle, magnitude);
-	 
-	  // return our new Particle!
-	  //return new Particle(1.2, 200, position,velocity);
-
-
+	
 	  return new Particle(particle, position, velocity, particle.initAlpha);
     }
 
     addNewParticles(){
-	// if we're at our max, stop emitting.
+	 // if we're at our max number of particles, stop emitting.
 	  if (this.particles.length > this.maxParticles) return;
-	 
 
-	 
 	    // for [emissionRate], emit a particle
 	    for (var j = 0; j < this.emissionRate; j++) {
 	      this.particles.push(this.emitParticle());
@@ -103,15 +97,13 @@ class Emitter{
    
 
     drawParticles(g){
-  // a new array to hold particles within our bounds
-	  var currentParticles = [];
+        // a new array to hold particles within our bounds
+        var currentParticles = [];
 
         for (var i = 0; i < this.particles.length; i++) {
-	     var particle = this.particles[i];
+	    var particle = this.particles[i];
 	    var pos = particle.position;
 
-   
-	 
 	    // If we're out of bounds, drop this particle and move on to the next
 	    if (pos.x < this.lowerX || pos.x > this.upperX || pos.y < this.lowerY || pos.y > this.upperY || particle.isDead) continue;
 	 
@@ -122,9 +114,10 @@ class Emitter{
 	    currentParticles.push(particle);
             particle.draw(g);
         }
-// Update our global particles, clearing room for old particles to be collected
-	  this.particles = currentParticles;
-	this.lifetime = this.lifetime - 1;
+
+        // Update our global particles, clearing room for old particles to be collected
+	this.particles = currentParticles;
+        this.lifetime = this.lifetime - 1;
    
       	if(this.lifetime<0){
 	  this.isDead = true;
