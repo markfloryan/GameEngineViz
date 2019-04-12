@@ -7,6 +7,7 @@ class TweenDemo extends Game {
 	constructor(canvas, shadowCanvas) {
 		super("Lab One Game", 800, 600, canvas);
 		this.lights = new LightSystem(canvas, window.innerWidth, window.innerHeight);
+		this.stars = new LightSystem(canvas, window.innerWidth, window.innerHeight);
 		this.tweenJuggler = new TweenJuggler();
 		// These are the objects within the game.
 		this.pumpkin = new PumpkinHead("Pumpkin Head", 0, 0);
@@ -22,7 +23,7 @@ this.valsX.push(Math.random()*800);
 this.valsY.push(Math.random()*300);
 }
 for(var i = 0; i < 20; i++){
-this.lights.addLight(i, new Tuple(this.valsX[i], this.valsY[i]), 8)
+this.stars.addLight(i, new Tuple(this.valsX[i], this.valsY[i]), 8)
 }
 	this.lights.addLight("sun", new Tuple(10, 10), 500);
 
@@ -195,7 +196,7 @@ this.lights.addLight(i, new Tuple(this.valsX[i], this.valsY[i]), 8)
 		g.fillRect(0, 0, this.width, this.height);
 		super.draw(g);
 		g.translate(this.xPos, this.yPos);
-
+		this.stars.draw(g);
 		this.pumpkin.draw(g);
                 for (var i = 0; i < this.emitters.length; i++) {
                     this.emitters[i].drawParticles(g);
