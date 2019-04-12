@@ -2,7 +2,7 @@ class WaterBody extends Sprite{
 	constructor(canvas, width, height, wavesNum, lesson) {
                 super("water",null);
                 this.drawingCanvas = canvas;
-		this.ctx = drawingCanvas.getContext("2d");
+		        this.ctx = drawingCanvas.getContext("2d");
                 this.width = width;
                 this.height = height;
                 this.wavesNum = wavesNum;
@@ -29,9 +29,8 @@ class WaterBody extends Sprite{
 
 	}
 
-        update(pressedKeys, gamePads){
+    update(pressedKeys, gamePads){
 		super.update(pressedKeys, gamePads);
-
 		this.isCollidingSurface();
 	}
 

@@ -64,6 +64,7 @@ canvas{
 <script type="text/javascript" id="Sprite.js"></script>
 <script type="text/javascript" id="ParticleEmitter.js"></script>
 <script type="text/javascript" id="AnimatedSprite.js"></script>
+<script type="text/javascript" id="Light.js"></script>
 <script type="text/javascript" id="Tween.js"></script>
 <script type="text/javascript" id="Water.js"></script>
 <script type="text/javascript" id="Game.js"></script>

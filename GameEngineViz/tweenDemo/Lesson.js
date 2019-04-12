@@ -6,7 +6,7 @@ class TweenDemo extends Game {
 	// initialization
 	constructor(canvas, shadowCanvas) {
 		super("Lab One Game", 800, 600, canvas);
-
+		this.lights = new LightSystem(canvas, window.innerWidth, window.innerHeight);
 		this.tweenJuggler = new TweenJuggler();
 		// These are the objects within the game.
 		this.pumpkin = new PumpkinHead("Pumpkin Head", 0, 0);
@@ -21,6 +21,11 @@ for(var i = 0; i < 20; i++){
 this.valsX.push(Math.random()*800);
 this.valsY.push(Math.random()*300);
 }
+for(var i = 0; i < 20; i++){
+this.lights.addLight(i, new Tuple(this.valsX[i], this.valsY[i]), 8)
+}
+	this.lights.addLight("sun", new Tuple(10, 10), 500);
+
 
 
 		this.xPos = 0;
@@ -58,12 +63,12 @@ this.valsY.push(Math.random()*300);
 
 		if (pressedKeys.contains(32)) {
 			var basicTween = new Tween(this.pumpkin);
-			var basicTweenParams = new TweenParams(TweenableParams.ROTATION, 180, 0, 2000, TweenParams.linear);
-			var basic2TweenParams = new TweenParams(TweenableParams.ALPHA, 1, 0.5, 1000, TweenParams.smoothStep);
-			var basic3TweenParams = new TweenParams(TweenableParams.SCALE_X, 1, -3, 5000, TweenParams.linear);
-			var basic4TweenParams = new TweenParams(TweenableParams.SCALE_Y, 1, 3, 7500, TweenParams.linear);
-			var basic5TweenParams = new TweenParams(TweenableParams.X, 1, 500, 2500, TweenParams.linear);
-			var basic6TweenParams = new TweenParams(TweenableParams.Y, 1, 200, 5000, TweenParams.smoothestStep);
+			var basicTweenParams = new TweenParams(TweenParams.ROTATION, 180, 0, 2000, TweenParams.linear);
+			var basic2TweenParams = new TweenParams(TweenParams.ALPHA, 1, 0.5, 1000, TweenParams.smoothStep);
+			var basic3TweenParams = new TweenParams(TweenParams.SCALE_X, 1, -3, 5000, TweenParams.linear);
+			var basic4TweenParams = new TweenParams(TweenParams.SCALE_Y, 1, 3, 7500, TweenParams.linear);
+			var basic5TweenParams = new TweenParams(TweenParams.X, 1, 500, 2500, TweenParams.linear);
+			var basic6TweenParams = new TweenParams(TweenParams.Y, 1, 200, 5000, TweenParams.smoothestStep);
 			basicTween.animate(basicTweenParams);
 			basicTween.animate(basic2TweenParams);
 			basicTween.animate(basic3TweenParams);
@@ -104,7 +109,7 @@ this.valsY.push(Math.random()*300);
 
 		if (pressedKeys.contains(66)) {
 			var basicTween = new Tween(this.pumpkin);
-			var basic6TweenParams = new TweenParams(TweenableParams.X, 500, 1, 3000, TweenParams.smoothStep);
+			var basic6TweenParams = new TweenParams(TweenParams.X, 500, 1, 3000, TweenParams.smoothStep);
 			basicTween.animate(basic6TweenParams);
 			this.tweenJuggler.add(basicTween);
 		}
@@ -112,14 +117,14 @@ this.valsY.push(Math.random()*300);
 		if (pressedKeys.contains(65)) {
 			var basicTween = new Tween(this.pumpkin);
 			basicTween.addEventListener('onTweenComplete', this);
-			var basicTweenParams = new TweenParams(TweenableParams.X, 1, 500, 3000, TweenParams.linear);
+			var basicTweenParams = new TweenParams(TweenParams.X, 1, 500, 3000, TweenParams.linear);
 			basicTween.animate(basicTweenParams);
 			this.tweenJuggler.add(basicTween);
 		}
 
 		if (pressedKeys.contains(68)) {
 			var basicTween = new Tween(this.pumpkin);
-			var basicTweenParams2 = new TweenParams(TweenableParams.X, 500, 1, 3000, TweenParams.smoothestStep);
+			var basicTweenParams2 = new TweenParams(TweenParams.X, 500, 1, 3000, TweenParams.smoothestStep);
 			basicTween.animate(basicTweenParams2);
 			this.tweenJuggler.add(basicTween);
 		}
@@ -127,34 +132,34 @@ this.valsY.push(Math.random()*300);
 
 		if (pressedKeys.contains(67)) {
 			var basicTween = new Tween(this.pumpkin);
-			var basicTweenParams = new TweenParams(TweenableParams.X, 1, 500, 3000, TweenParams.smootherStep);
+			var basicTweenParams = new TweenParams(TweenParams.X, 1, 500, 3000, TweenParams.smootherStep);
 			basicTween.animate(basicTweenParams);
 			this.tweenJuggler.add(basicTween);
 		}
 
 		if (pressedKeys.contains(69)) {
 			var basicTween = new Tween(this.pumpkin);
-			var basic6TweenParams = new TweenParams(TweenableParams.X, 500, 1, 3000, TweenParams.accelerateSquared);
+			var basic6TweenParams = new TweenParams(TweenParams.X, 500, 1, 3000, TweenParams.accelerateSquared);
 			basicTween.animate(basic6TweenParams);
 			this.tweenJuggler.add(basicTween);
 		}
 		if (pressedKeys.contains(70)) {
 			var basicTween = new Tween(this.pumpkin);
-			var basic6TweenParams = new TweenParams(TweenableParams.X, 500, 1, 3000, TweenParams.decellerateSquared);
+			var basic6TweenParams = new TweenParams(TweenParams.X, 500, 1, 3000, TweenParams.decellerateSquared);
 			basicTween.animate(basic6TweenParams);
 			this.tweenJuggler.add(basicTween);
 		}
 
 		if (pressedKeys.contains(71)) {
 			var basicTween = new Tween(this.pumpkin);
-			var basic6TweenParams = new TweenParams(TweenableParams.X, 1, 500, 3000, TweenParams.catmullromTen);
+			var basic6TweenParams = new TweenParams(TweenParams.X, 1, 500, 3000, TweenParams.catmullromTen);
 			basicTween.animate(basic6TweenParams);
 			this.tweenJuggler.add(basicTween);
 		}
 
 		if (pressedKeys.contains(72)) {
 			var basicTween = new Tween(this.pumpkin);
-			var basic6TweenParams = new TweenParams(TweenableParams.X, 1, 500, 3000, TweenParams.catmullromNTen);
+			var basic6TweenParams = new TweenParams(TweenParams.X, 1, 500, 3000, TweenParams.catmullromNTen);
 			basicTween.animate(basic6TweenParams);
 			this.tweenJuggler.add(basicTween);
 		}
@@ -189,9 +194,7 @@ this.valsY.push(Math.random()*300);
 		g.fillRect(0, 0, this.width, this.height);
 		super.draw(g);
 		g.translate(this.xPos, this.yPos);
-for(var i = 0; i < 20; i++){
-ligthenGradient(g,this.valsX[i], this.valsY[i], 8)
-}
+
 		this.pumpkin.draw(g);
                 for (var i = 0; i < this.emitters.length; i++) {
                     this.emitters[i].drawParticles(g);
@@ -208,7 +211,7 @@ ligthenGradient(g,this.valsX[i], this.valsY[i], 8)
 //ligthenGradient(g,500, 240, 50);
 //ligthenGradient(g,300, 300, 80);
 //ligthenGradient(g,10, 300, 200);
-ligthenGradient(g,10, 10, 500);
+this.lights.draw(g);
 
 
 
@@ -237,29 +240,7 @@ ligthenGradient(g,10, 10, 500);
 function tick() {
 	game.nextFrame();
 }
-function darken(ctx,x, y, w, h, darkenColor, amount) {
-    ctx.fillStyle = darkenColor;
-    ctx.globalAlpha = amount;
-    ctx.fillRect(x, y, w, h);
-    ctx.globalAlpha = 1;
-}
-function ligthenGradient(ctx,x, y, radius) {
-    ctx.save();
-    ctx.globalCompositeOperation = 'lighter';
-    var rnd = 0.05 * Math.sin(1.1 * Date.now() / 1000);
-    radius = radius * (1 + rnd);
-    var radialGradient = ctx.createRadialGradient(x, y, 0, x, y, radius);
-    radialGradient.addColorStop(0.0, '#BB9');
-    radialGradient.addColorStop(0.2 + rnd, '#AA8');
-    radialGradient.addColorStop(0.7 + rnd, '#330');
-    radialGradient.addColorStop(0.90, '#110');
-    radialGradient.addColorStop(1, '#000');
-    ctx.fillStyle = radialGradient;
-    ctx.beginPath();
-    ctx.arc(x, y, radius, 0, 2 * Math.PI);
-    ctx.fill();
-    ctx.restore();
-}
+
 // Create shadow canvas
 var shadowCanvas = document.getElementById('1')
 var drawingCanvas = document.getElementById('game');

@@ -5,33 +5,6 @@ const X = "X",
       ALPHA = "ALPHA",
       ROTATION = "ROTATION";
 
-class TweenableParams{
-
-  static get X() {
-    return X;
-  }
-
-  static get Y() {
-    return Y;
-  }
-
-  static get SCALE_X() {
-    return SCALE_X;
-  }
-  
-  static get SCALE_Y() {
-    return SCALE_Y;
-  }
-
-  static get ALPHA() {
-    return ALPHA;
-  }
-
-  static get ROTATION() {
-    return ROTATION;
-  }
-
-}
 
 function zeroToOne(start, finish, transVal){
     return (finish * transVal) + (start * (1 - transVal));
@@ -62,13 +35,8 @@ class TweenParams {
         console.log("Animation starting: " + this.tweenType);
     }
 
-    static linear(start, finish, timeRatio){
-        return zeroToOne(start, finish, timeRatio);
-    }
-
-
 static linear(start, finish, timeRatio){
-  return zeroToOne(start, finish, timeRatio);
+    return zeroToOne(start, finish, timeRatio);
 }
 
 static smoothStep(start, finish, timeRatio){
@@ -102,6 +70,30 @@ static catmullromNTen(start, finish, timeRatio){
   var v = catmullrom(timeRatio, 0, 0, 1, -10);
   return zeroToOne(start, finish, v);
 }
+
+static get X() {
+    return X;
+  }
+
+static get Y() {
+    return Y;
+  }
+
+  static get SCALE_X() {
+    return SCALE_X;
+  }
+  
+  static get SCALE_Y() {
+    return SCALE_Y;
+  }
+
+  static get ALPHA() {
+    return ALPHA;
+  }
+
+  static get ROTATION() {
+    return ROTATION;
+  }
     
 }
 
@@ -111,15 +103,15 @@ class Tween extends EventEmitter {
     constructor(displayObject){
         super();
         this.displayObject = displayObject;
-	this.animations = new ArrayList();
+      	this.animations = new ArrayList();
     }
 
     animate(tweenParams){
-	this.animations.push(tweenParams);
+	      this.animations.push(tweenParams);
     }
 
     finishAnimation(tweenParams){
-	this.animations.remove(tweenParams);
+	      this.animations.remove(tweenParams);
         console.log("Removing animation: " + tweenParams.tweenType);
     }
 
@@ -137,8 +129,8 @@ class TweenJuggler {
     update() {
         var tween;
         if(this.tweenList.size() != 0){
-		var i;
-		for (i = 0; i < this.tweenList.size(); i++) {
+		    var i;
+		    for (i = 0; i < this.tweenList.size(); i++) {
 		    var tween = this.tweenList.get(i);
                     var j;
                     for (j = 0; j < tween.animations.size(); j++) {
