@@ -133,8 +133,6 @@ var curMousePos, lastMousePos = {x:0,y:0};
 var avgSpeed = 0;
 var splashiness = .5;
 
-//waves[Math.floor(Math.random()*wavesNum)].speed = 20;
-
 
 
 

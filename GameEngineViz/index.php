@@ -24,6 +24,7 @@
                         <li><a href="lesson1/#">Lesson 1: test</a></li>
                         <li><a href="lesson2/#">Lesson 2: test</a></li>
                         <li><a href="lesson3/#">Lesson 3: test</a></li>
+                        <li><a href="specialEffectsDemo/#">Special Effects Demo: test</a></li>
                     </ol>
                 </div>
             </div>

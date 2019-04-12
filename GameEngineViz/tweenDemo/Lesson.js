@@ -79,6 +79,7 @@ this.lights.addLight(i, new Tuple(this.valsX[i], this.valsY[i]), 8)
                         basicTween.addEventListener('onTweenComplete', this);
 
 		}
+		// arrow keys
 		if (pressedKeys.contains(37)) {
 			this.pumpkin.moveX(-2);
 		}

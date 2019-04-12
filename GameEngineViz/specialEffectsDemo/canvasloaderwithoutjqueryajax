@@ -1,0 +1,44 @@
+$(document).ready(function() {  
+    $("script").each(function() {
+        var filename = $(this).attr('id');
+        console.log("" + filename);
+        if ((filename == "loader") || (filename == "jquery")){
+            // do nothing
+        } else {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    // file was found in local directory
+                    // TODO: store LOCALstorage with lesson number
+                    if (sessionStorage.hasOwnProperty(filename)) {
+                        // if file is in storage, don't load anything from server
+                    } else {
+                        // store found file
+                        var fileinfo = { text: this.responseText };
+                        sessionStorage.setItem(filename, JSON.stringify(fileinfo));
+                    }
+                } else if (this.readyState == 4 && this.status == 404) {
+                    // find file in engine directory
+                    var xhttp2 = new XMLHttpRequest();
+                    xhttp2.onreadystatechange = function() {
+                        if (this.readyState == 4 && this.status == 200) {
+                            if (sessionStorage.hasOwnProperty(filename)) {
+                                // SHOULDN'T HAPPEN
+                                console.log("oops");
+                            } else {
+                                var fileinfo = { text: this.responseText };
+                                sessionStorage.setItem(filename, JSON.stringify(fileinfo));
+                            }
+                        }
+                    };
+                    xhttp2.open("GET", "../engine/" + filename, true);
+                    xhttp2.send();
+                }
+            };
+            xhttp.open("GET", filename, true);
+            xhttp.send();
+        }
+    });
+
+
+});
