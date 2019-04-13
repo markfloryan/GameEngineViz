@@ -1,19 +1,16 @@
 class Light{
-	constructor(id, position, radius) {
+	constructor(id, position, radius, osc) {
 				this.id = id;
                 this.position = position;
 		        this.radius = radius;
+		        this.osc = osc || false;
 	}
 }
 
 
 class LightSystem{
-	constructor(canvas, width, height) {
-                this.drawingCanvas = canvas;
-		        this.ctx = drawingCanvas.getContext("2d");
-                this.width = width;
-                this.height = height;
-                this.lights = [];
+	constructor() {
+		this.lights = [];
 	}
 	
 	darken(ctx, darkenColor, amount) {
@@ -23,10 +20,14 @@ class LightSystem{
 		ctx.globalAlpha = 1;
 	}
 	
-	lightenGradient(ctx, x, y, radius) {
+	lightenGradient(ctx, x, y, radius, osc) {
 		ctx.save();
 		ctx.globalCompositeOperation = 'lighter';
-		var rnd = 0.05 * Math.sin(1.1 * Date.now() / 1000);
+		if(osc){
+			var rnd = 0.05 * Math.sin(1.1 * Date.now() / 1000);
+		} else {
+			var rnd = 0;
+		}
 		radius = radius * (1 + rnd);
 		var radialGradient = ctx.createRadialGradient(x, y, 0, x, y, radius);
 		radialGradient.addColorStop(0.0, '#BB9');
@@ -41,15 +42,15 @@ class LightSystem{
 		ctx.restore();
 	}
 	
-	addLight(id, position, radius){
-		var light = new Light(id, position, radius);
+	addLight(id, position, radius, osc){
+		var light = new Light(id, position, radius, osc);
 		this.lights.push(light);	
 	}
 	
 	draw(g){
 		for (var i = 0; i < this.lights.length; i++){
 			var light = this.lights[i];
-			this.lightenGradient(g, light.position.x, light.position.y, light.radius);
+			this.lightenGradient(g, light.position.x, light.position.y, light.radius, light.osc);
 		}
 	}
 

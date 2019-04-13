@@ -121,8 +121,40 @@ class Emitter{
 	  this.isDead = true;
       	}
     }
-
 }
+    
+class ParticleEmitterSystem{
+	constructor() {
+		this.emitters = [];
+	}
+	
+	addEmitter(emitter){
+		this.emitters.push(emitter);	
+	}
+	
+	addNewEmitter(particleTemplate, source, spread, maxParticles, emissionRate, lifetime, lowerX, upperX, lowerY, upperY){
+		this.emitters.push(new Emitter(particleTemplate, source, spread, maxParticles, emissionRate, lifetime, lowerX, upperX, lowerY, upperY));
+	}
+	
+	update() {
+		var tempEmitters = [];
+		// for each emitter
+		for (var i = 0; i < this.emitters.length; i++) {
+			this.emitters[i].addNewParticles();
+		    if(!this.emitters[i].isDead){
+				tempEmitters.push(this.emitters[i]);
+            }
+        } 
+        this.emitters = tempEmitters;
+	}
+	
+	draw(g){
+		for (var i = 0; i < this.emitters.length; i++){
+			this.emitters[i].drawParticles(g);
+		}
+	}
+}
+
 
 
 

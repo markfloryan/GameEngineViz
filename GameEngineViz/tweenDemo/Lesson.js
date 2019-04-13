@@ -4,37 +4,23 @@
 class TweenDemo extends Game {
 
 	// initialization
-	constructor(canvas, shadowCanvas) {
+	constructor(canvas) {
 		super("Lab One Game", 800, 600, canvas);
-		this.lights = new LightSystem(canvas, window.innerWidth, window.innerHeight);
-		this.stars = new LightSystem(canvas, window.innerWidth, window.innerHeight);
+		this.lights = new LightSystem();
+		this.stars = new LightSystem();
+		this.emitters = new ParticleEmitterSystem();
 		this.tweenJuggler = new TweenJuggler();
 		// These are the objects within the game.
 		this.pumpkin = new PumpkinHead("Pumpkin Head", 0, 0);
 		this.pumpkin = new PumpkinHead("Pumpkin Head", 0, 0);
-                this.addChild(this.pumpkin);
-                this.water = new WaterBody(canvas, window.innerWidth, window.innerHeight/2, 75, this);
-                this.s = shadowCanvas.getContext('2d');
-		this.valsX = [];
-                this.valsY = [];
-for(var i = 0; i < 20; i++){
-
-this.valsX.push(Math.random()*800);
-this.valsY.push(Math.random()*300);
-}
-for(var i = 0; i < 20; i++){
-this.stars.addLight(i, new Tuple(this.valsX[i], this.valsY[i]), 8)
-}
-	this.lights.addLight("sun", new Tuple(10, 10), 500);
-
-
-
+        this.addChild(this.pumpkin);
+        this.water = new WaterBody(canvas, window.innerWidth, window.innerHeight/2, 75, this);
+		for(var i = 0; i < 20; i++){
+			this.stars.addLight(i, new Tuple(Math.random()*800, Math.random()*300), 8)
+		}
+		this.lights.addLight("sun", new Tuple(10, 10), 500, true);
 		this.xPos = 0;
 		this.yPos = 0;
- 
-                this.emitters = [];
-
-
 	}
 	
         
@@ -44,21 +30,12 @@ this.stars.addLight(i, new Tuple(this.valsX[i], this.valsY[i]), 8)
 		this.pumpkin.update(pressedKeys);
 		this.water.update(pressedKeys);
 		this.tweenJuggler.update();
-                var tempEmitters = [];
-		// for each emitter
-		for (var i = 0; i < this.emitters.length; i++) {
-                    this.emitters[i].addNewParticles();
-		    if(!this.emitters[i].isDead){
-                        tempEmitters.push(this.emitters[i]);
-                    }
-
-                } 
-                this.emitters = tempEmitters;
-
-                if (pressedKeys.size() == 0){
-                	this.pumpkin.moveX(0);
-                        this.pumpkin.moveY(0);
-                }
+        this.emitters.update();
+        
+        if (pressedKeys.size() == 0){
+			this.pumpkin.moveX(0);
+            this.pumpkin.moveY(0);
+        }
 
 
 
@@ -173,9 +150,9 @@ this.stars.addLight(i, new Tuple(this.valsX[i], this.valsY[i]), 8)
                // }
 		
 
-                if (pressedKeys.contains(74)) {
+        if (pressedKeys.contains(74)) {
 			var template = new ParticleTemplate("pumpkin_head.png", 0.1, 200, Tuple.fromAngle(0, 5), new Tuple(0,0), true);
-			this.emitters.push(new Emitter(template, new Tuple(500, 300), Math.PI/4, 50, 8,1000000000));
+			this.emitters.addEmitter(new Emitter(template, new Tuple(500, 300), Math.PI/4, 50, 8,1000000000));
 		}
 
  
@@ -198,9 +175,7 @@ this.stars.addLight(i, new Tuple(this.valsX[i], this.valsY[i]), 8)
 		g.translate(this.xPos, this.yPos);
 		this.stars.draw(g);
 		this.pumpkin.draw(g);
-                for (var i = 0; i < this.emitters.length; i++) {
-                    this.emitters[i].drawParticles(g);
-                } 
+        this.emitters.draw(g);
 		g.translate(-1 * this.xPos, -1 * this.yPos);
                 this.water.draw(g);
                 // Make it black
@@ -248,7 +223,7 @@ var shadowCanvas = document.getElementById('1')
 var drawingCanvas = document.getElementById('game');
 
 if (drawingCanvas.getContext) {
-	var game = new TweenDemo(drawingCanvas, shadowCanvas);
+	var game = new TweenDemo(drawingCanvas);
 	game.start();
 }
 

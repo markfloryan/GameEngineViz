@@ -106,7 +106,7 @@ class WaterBody extends Sprite{
 			    this.waves[wave+1].speed -= sprite.getVelY();
 			    this.waves[wave-1].speed -= sprite.getVelY();
 var template = new ParticleTemplate("water_particle.png", 0.1, Math.abs(sprite.getVelY())*3, Tuple.fromAngle(1.5*Math.PI, Math.abs(sprite.getVelY()*2)), new Tuple(Math.random() * -0.002 + 0.001, Math.random() + 1), false, 0.5);
-			this.lesson.emitters.push(new Emitter(template, new Tuple(midSprite,this.waves[wave].pos.y), Math.PI/2, 25, Math.abs(sprite.getVelY()), Math.abs(sprite.getVelY())*5));
+			this.lesson.emitters.addEmitter(new Emitter(template, new Tuple(midSprite,this.waves[wave].pos.y), Math.PI/2, 25, Math.abs(sprite.getVelY()), Math.abs(sprite.getVelY())*5));
 		     }
                             }
 
