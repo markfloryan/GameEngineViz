@@ -89,6 +89,10 @@ class DisplayObject{
     getHitbox() {
         return {x:this.getX()-this.pivotX, y:this.getY()-this.pivotY, width: this.getUnscaledWidth(), height: this.getUnscaledHeight()}
     }
+    
+    getScaledHitbox() {
+        return {x:this.getX()-this.pivotX, y:this.getY()-this.pivotY, width: this.getUnscaledWidth()*this.scaleX, height: this.getUnscaledHeight()*this.scaleY}
+    }
 
     /**
      * Applies transformations for this display object to the given graphics

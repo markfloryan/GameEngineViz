@@ -142,8 +142,8 @@ class TweenJuggler {
                             }
                             var elapsedTime = animationParams.clock.getElapsedTime()
                             var timeRatio = elapsedTime/animationParams.time;
-                            if(animationParams.tweenType == TweenableParams.ALPHA){  
-				    var newAlpha = animationParams.func(animationParams.start, animationParams.final, timeRatio);
+                            if(animationParams.tweenType == TweenParams.ALPHA){  
+									var newAlpha = animationParams.func(animationParams.start, animationParams.final, timeRatio);
                                     if(elapsedTime >= animationParams.time) {
                                         tween.displayObject.alpha = animationParams.final;
                                         tween.finishAnimation(animationParams);
@@ -151,8 +151,8 @@ class TweenJuggler {
                                        tween.displayObject.alpha = newAlpha;
                                     }
 
-                            } else if(animationParams.tweenType == TweenableParams.ROTATION){
-				    var newRotation = animationParams.func(animationParams.start, animationParams.final, timeRatio);
+                            } else if(animationParams.tweenType == TweenParams.ROTATION){
+									var newRotation = animationParams.func(animationParams.start, animationParams.final, timeRatio);
                                     if(elapsedTime >= animationParams.time) {
                                         tween.displayObject.rotation = animationParams.final;
                                         tween.finishAnimation(animationParams);
@@ -160,8 +160,8 @@ class TweenJuggler {
                                        tween.displayObject.rotation = newRotation;
                                     }
                             
-			    } else if(animationParams.tweenType == TweenableParams.SCALE_X){
-				    var newScaleX = animationParams.func(animationParams.start, animationParams.final, timeRatio);
+							} else if(animationParams.tweenType == TweenParams.SCALE_X){
+									var newScaleX = animationParams.func(animationParams.start, animationParams.final, timeRatio);
                                     if(elapsedTime >= animationParams.time) {
                                         tween.displayObject.scaleX = animationParams.final;
                                         tween.finishAnimation(animationParams);
@@ -169,8 +169,8 @@ class TweenJuggler {
                                        tween.displayObject.scaleX = newScaleX;
                                     }
  
-			    } else if(animationParams.tweenType == TweenableParams.SCALE_Y){
-				    var newScaleY = animationParams.func(animationParams.start, animationParams.final, timeRatio);
+							} else if(animationParams.tweenType == TweenParams.SCALE_Y){
+									var newScaleY = animationParams.func(animationParams.start, animationParams.final, timeRatio);
                                     if(elapsedTime >= animationParams.time) {
                                         tween.displayObject.scaleY = animationParams.final;
                                         tween.finishAnimation(animationParams);
@@ -178,8 +178,8 @@ class TweenJuggler {
                                        tween.displayObject.scaleY = newScaleY;
                                     }
 
-                             } else if(animationParams.tweenType == TweenableParams.X){
-				    var newX = animationParams.func(animationParams.start, animationParams.final, timeRatio);
+                            } else if(animationParams.tweenType == TweenParams.X){
+									var newX = animationParams.func(animationParams.start, animationParams.final, timeRatio);
                                     if(elapsedTime >= animationParams.time) {
                                         tween.displayObject.setX(animationParams.final);
                                         tween.finishAnimation(animationParams);
@@ -187,8 +187,8 @@ class TweenJuggler {
                                        tween.displayObject.setX(newX);
                                     }
 
-                             } else if(animationParams.tweenType == TweenableParams.Y){
-				    var newY = animationParams.func(animationParams.start, animationParams.final, timeRatio);
+                             } else if(animationParams.tweenType == TweenParams.Y){
+									var newY = animationParams.func(animationParams.start, animationParams.final, timeRatio);
                                     if(elapsedTime >= animationParams.time) {
                                         tween.displayObject.setY(animationParams.final);
                                         tween.finishAnimation(animationParams);

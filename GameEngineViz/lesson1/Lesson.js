@@ -9,8 +9,6 @@ class LabOneGame extends Game{
     constructor(canvas){
         super("Lab One Game", 800, 600, canvas);
 
-
-	this.tweenJuggler = new TweenJuggler();
         // These are the objects within the game.
         this.mario = new Mario("Mario", 0, 0);
         this.coin1 = new Coin("Coin1", 300, 200); 
@@ -30,83 +28,10 @@ class LabOneGame extends Game{
     update(pressedKeys, gamepads){
         super.update(pressedKeys);
         this.mario.update(pressedKeys);
-        this.tweenJuggler.update();
-
-if(pressedKeys.contains(39)){
-            var basicTween = new Tween(this.mario);
-            var basicTweenParams = new TweenParams(TweenableParams.ROTATION,180,0, 2000, linear);
-            var basic2TweenParams = new TweenParams(TweenableParams.ALPHA,1,0.5, 1000, smoothStep);
-            var basic3TweenParams = new TweenParams(TweenableParams.SCALE_X,1,-3, 5000, linear);
-            var basic4TweenParams = new TweenParams(TweenableParams.SCALE_Y,1,3, 7500, linear);
-            var basic5TweenParams = new TweenParams(TweenableParams.X,1,500, 2500, linear);
-            var basic6TweenParams = new TweenParams(TweenableParams.Y,1,200, 5000, smoothestStep);
-            basicTween.animate(basicTweenParams);
-            basicTween.animate(basic2TweenParams);
-            basicTween.animate(basic3TweenParams);
-            this.tweenJuggler.add(basicTween);
-            basicTween.animate(basic4TweenParams);
-            basicTween.animate(basic5TweenParams);
-            basicTween.animate(basic6TweenParams);
-
-        }
-
-
-        if(pressedKeys.contains(38)){
-            var basicTween = new Tween(this.mario);
-            var basic6TweenParams = new TweenParams(TweenableParams.X,500,1, 3000, smoothStep);
-            basicTween.animate(basic6TweenParams);
-            this.tweenJuggler.add(basicTween);
-        }
- 
-        if(pressedKeys.contains(37)){
-            var basicTween = new Tween(this.mario);
-            var basicTweenParams = new TweenParams(TweenableParams.X,1,500, 3000, linear);
-            basicTween.animate(basicTweenParams);
-            this.tweenJuggler.add(basicTween);
-        }
-        
-        if(pressedKeys.contains(40)){
-            var basicTween = new Tween(this.mario);
-            var basicTweenParams2 = new TweenParams(TweenableParams.X,500,1, 3000, smoothestStep);
-            basicTween.animate(basicTweenParams2);
-            this.tweenJuggler.add(basicTween);
-        }
-
 
         // Insert code here!
-        if(pressedKeys.contains(32)){
-            var basicTween = new Tween(this.mario);
-            var basicTweenParams = new TweenParams(TweenableParams.X,1,500, 3000, smootherStep);
-            basicTween.animate(basicTweenParams);
-            this.tweenJuggler.add(basicTween);
-        }
-
-        if(pressedKeys.contains(65)){
-            var basicTween = new Tween(this.mario);
-            var basic6TweenParams = new TweenParams(TweenableParams.X,500,1, 3000, accelerateSquared);
-            basicTween.animate(basic6TweenParams);
-            this.tweenJuggler.add(basicTween);
-        }
-        if(pressedKeys.contains(66)){
-            var basicTween = new Tween(this.mario);
-            var basic6TweenParams = new TweenParams(TweenableParams.X,500,1, 3000, decellerateSquared);
-            basicTween.animate(basic6TweenParams);
-            this.tweenJuggler.add(basicTween);
-        }
-
-        if(pressedKeys.contains(67)){
-            var basicTween = new Tween(this.mario);
-            var basic6TweenParams = new TweenParams(TweenableParams.X,1,500, 3000, catmullromTen);
-            basicTween.animate(basic6TweenParams);
-            this.tweenJuggler.add(basicTween);
-        }
-
-       if(pressedKeys.contains(68)){
-            var basicTween = new Tween(this.mario);
-            var basic6TweenParams = new TweenParams(TweenableParams.X,1,500, 3000, catmullromNTen);
-            basicTween.animate(basic6TweenParams);
-            this.tweenJuggler.add(basicTween);
-        }
+        if(pressedKeys.contains(32))
+            console.log("Hello, world!");
 
         
         // collision detection

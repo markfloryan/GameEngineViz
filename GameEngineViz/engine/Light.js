@@ -10,7 +10,7 @@ class Light{
 
 class LightSystem{
 	constructor() {
-		this.lights = [];
+		this.lights = new ArrayList();;
 	}
 	
 	darken(ctx, darkenColor, amount) {
@@ -44,14 +44,26 @@ class LightSystem{
 	
 	addLight(id, position, radius, osc){
 		var light = new Light(id, position, radius, osc);
-		this.lights.push(light);	
+		this.lights.push(light);
+		return light;
+	}
+	
+	getLight(id){
+		for (var i = 0; i < this.lights.size(); i++){
+			if(id == this.lights.get(i).id){
+				return this.lights.get(i);
+			}
+		}
 	}
 	
 	draw(g){
-		for (var i = 0; i < this.lights.length; i++){
-			var light = this.lights[i];
+		for (var i = 0; i < this.lights.size(); i++){
+			var light = this.lights.get(i);
 			this.lightenGradient(g, light.position.x, light.position.y, light.radius, light.osc);
 		}
 	}
+	
+	remove(light){ this.lights.remove(light); }
+
 
 }

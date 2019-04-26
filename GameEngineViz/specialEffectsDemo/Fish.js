@@ -1,9 +1,9 @@
 "use strict";
 
-class PumpkinHead extends Sprite {
+class Fish extends Sprite {
 
     constructor(id, posX, posY){
-        super(id, "pumpkin_head.png");
+        super(id, "fish.png");
         this.setX(posX);
         this.setY(posY);
     }
@@ -14,7 +14,7 @@ class PumpkinHead extends Sprite {
     update(pressedKeys, gamePads){
         super.update(pressedKeys, gamePads);
         this.setX(this.getX() + this.getVelX());
-	this.setY(this.getY() + this.getVelY());
+		this.setY(this.getY() + this.getVelY());
     }
 
     /**

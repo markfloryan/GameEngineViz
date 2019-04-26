@@ -43,7 +43,7 @@ class ParticleTemplate {
          this.image = image;
          this.size = size;
          this.lifespan = lifespan; 
-	 this.velocity = velocity || new Tuple(0, 0);
+		 this.velocity = velocity || new Tuple(0, 0);
          this.acceleration = acceleration || new Tuple(0, 0);
          this.rotate = rotate;
          this.initAlpha = initAlpha;
@@ -52,10 +52,10 @@ class ParticleTemplate {
 
 class Emitter{
     constructor(particleTemplate, source, spread, maxParticles, emissionRate, lifetime, lowerX, upperX, lowerY, upperY){
-	  this.particles = [];
+		  this.particles = [];
           this.particleTemplate = particleTemplate;
-	  this.position = source; // Tuple
-	  this.spread = spread || Math.PI / 32; // possible angles = velocity +/- spread
+		  this.position = source; // Tuple
+		  this.spread = spread || Math.PI / 32; // possible angles = velocity +/- spread
           this.maxParticles = maxParticles || 20000;
           this.emissionRate = emissionRate || 10;
           this.lifetime = lifetime || Infinity;
@@ -69,18 +69,18 @@ class Emitter{
     emitParticle(){
 	  // Use an angle randomized over the spread so we have more of a "spray"
           var particle = this.particleTemplate; 
-	  var angle = particle.velocity.getAngle() + this.spread - (Math.random() * this.spread * 2);
+		  var angle = particle.velocity.getAngle() + this.spread - (Math.random() * this.spread * 2);
 	 
 	  // The magnitude of the emitter's velocity
-	  var magnitude = particle.velocity.getMagnitude();
+		  var magnitude = particle.velocity.getMagnitude();
 	 
 	  // The emitter's position
-	  var position = new Tuple(this.position.x, this.position.y);
+		  var position = new Tuple(this.position.x, this.position.y);
 	 
 	  // New velocity based off of the calculated angle and magnitude
-	  var velocity = Tuple.fromAngle(angle, magnitude);
+		  var velocity = Tuple.fromAngle(angle, magnitude);
 	
-	  return new Particle(particle, position, velocity, particle.initAlpha);
+		  return new Particle(particle, position, velocity, particle.initAlpha);
     }
 
     addNewParticles(){
@@ -114,11 +114,11 @@ class Emitter{
         }
 
         // Update our global particles, clearing room for old particles to be collected
-	this.particles = currentParticles;
+		this.particles = currentParticles;
         this.lifetime = this.lifetime - 1;
    
       	if(this.lifetime<0){
-	  this.isDead = true;
+		this.isDead = true;
       	}
     }
 }

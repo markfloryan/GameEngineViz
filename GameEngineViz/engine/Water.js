@@ -1,13 +1,13 @@
 class WaterBody extends Sprite{
 	constructor(canvas, width, height, wavesNum, lesson) {
-                super("water",null);
-                this.drawingCanvas = canvas;
-		        this.ctx = drawingCanvas.getContext("2d");
-                this.width = width;
-                this.height = height;
-                this.wavesNum = wavesNum;
-                this.waves = [];
-                this.lesson = lesson;
+		super("water",null);
+        this.drawingCanvas = canvas;
+		this.ctx = drawingCanvas.getContext("2d");
+        this.width = width;
+        this.height = height;
+        this.wavesNum = wavesNum;
+        this.waves = [];
+        this.lesson = lesson;
 		// spring stuff
 		this.tension = .025,
 		this.dampening = .025,
@@ -35,30 +35,30 @@ class WaterBody extends Sprite{
 	}
 
 	draw(g){
-            super.draw(g);
-            this.oldAlpha = this.ctx.globalAlpha;
-            this.ctx.globalAlpha *= 0.5;
+		super.draw(g);
+        this.oldAlpha = this.ctx.globalAlpha;
+        this.ctx.globalAlpha *= 0.5;
 
 	    for(var i = 0; i < this.wavesNum; i++){    
-		var diff = this.waves[i].targetHeight - this.waves[i].height;
-		
-		this.waves[i].speed += this.tension * diff - this.waves[i].speed * this.dampening;
-		this.waves[i].height += this.waves[i].speed;
+			var diff = this.waves[i].targetHeight - this.waves[i].height;
+			
+			this.waves[i].speed += this.tension * diff - this.waves[i].speed * this.dampening;
+			this.waves[i].height += this.waves[i].speed;
 	    }    
 	    
 	    var lDeltas = [],
 		rDeltas = [];
 
 	    for (var i = 0; i < this.wavesNum; i++){
-		if (i > 0){
-		    lDeltas[i] = this.spread * (this.waves[i].height - this.waves[i - 1].height);
-		    this.waves[i - 1].speed += lDeltas[i];
-		}
-		
-		if (i < this.wavesNum - 1){
-		    rDeltas[i] = this.spread * (this.waves[i].height - this.waves[i + 1].height);
-		    this.waves[i + 1].speed += rDeltas[i];
-		}
+			if (i > 0){
+				lDeltas[i] = this.spread * (this.waves[i].height - this.waves[i - 1].height);
+				this.waves[i - 1].speed += lDeltas[i];
+			}
+			
+			if (i < this.wavesNum - 1){
+				rDeltas[i] = this.spread * (this.waves[i].height - this.waves[i + 1].height);
+				this.waves[i + 1].speed += rDeltas[i];
+			}
 	    }
 
 	    for (var i = 0; i < this.wavesNum; i++){
@@ -93,45 +93,26 @@ class WaterBody extends Sprite{
 
 
         isCollidingSurface() {
-		var lessonSprites = this.lesson.children;
-                for (var i = 0; i < lessonSprites.size(); i++){
-                    var sprite = lessonSprites.get(i);
-                    var spriteX = sprite.getX();
-                    var box = sprite.getHitbox();
-                    var midSprite = spriteX + box.width/2;
-                    if(box.y + box.height >= this.height && box.y < this.height && sprite.getVelY() != 0){
-		            var wave = Math.floor(this.wavesNum/(this.width/midSprite));
-                            if (wave > 1 && wave < this.wavesNum-1){
-			    this.waves[wave].speed -= sprite.getVelY();
-			    this.waves[wave+1].speed -= sprite.getVelY();
-			    this.waves[wave-1].speed -= sprite.getVelY();
-var template = new ParticleTemplate("water_particle.png", 0.1, Math.abs(sprite.getVelY())*3, Tuple.fromAngle(1.5*Math.PI, Math.abs(sprite.getVelY()*2)), new Tuple(Math.random() * -0.002 + 0.001, Math.random() + 1), false, 0.5);
-			this.lesson.emitters.addEmitter(new Emitter(template, new Tuple(midSprite,this.waves[wave].pos.y), Math.PI/2, 25, Math.abs(sprite.getVelY()), Math.abs(sprite.getVelY())*5));
-		     }
-                            }
-
-                        
-                }
+			var lessonSprites = this.lesson.children;
+			for (var i = 0; i < lessonSprites.size(); i++){
+				var sprite = lessonSprites.get(i);
+				var spriteX = sprite.getX();
+				var box = sprite.getScaledHitbox();
+				var midSprite = spriteX + box.width/2;
+				if(box.y + box.height >= this.height && box.y < this.height && sprite.getVelY() != 0){
+					var wave = Math.floor(this.wavesNum/(this.width/midSprite));
+					if (wave > 1 && wave < this.wavesNum-1){
+						this.waves[wave].speed -= sprite.getVelY();
+						this.waves[wave+1].speed -= sprite.getVelY();
+						this.waves[wave-1].speed -= sprite.getVelY();
+						var template = new ParticleTemplate("water_particle.png", 0.1, Math.abs(sprite.getVelY())*3, Tuple.fromAngle(1.5*Math.PI, Math.abs(sprite.getVelY()*2)), new Tuple(Math.random() * -0.002 + 0.001, Math.random() + 1), false, 0.5);
+						this.lesson.emitters.addEmitter(new Emitter(template, new Tuple(midSprite,this.waves[wave].pos.y), Math.PI/2, 25, Math.abs(sprite.getVelY()), Math.abs(sprite.getVelY())*5));
+					}
+				}          
+			}
        }
 
 }
-
-
-function lineDistance( point1, point2 ) {
-    var xs = 0;
-    var ys = 0;
-     
-    xs = point2.x - point1.x;
-    xs = xs * xs;
-     
-    ys = point2.y - point1.y;
-    ys = ys * ys;
-     
-    return Math.sqrt( xs + ys );
-}
-var curMousePos, lastMousePos = {x:0,y:0};
-var avgSpeed = 0;
-var splashiness = .5;
 
 
 

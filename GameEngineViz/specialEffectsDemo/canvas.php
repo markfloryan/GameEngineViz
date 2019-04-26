@@ -67,9 +67,11 @@ canvas{
 <script type="text/javascript" id="Tween.js"></script>
 <script type="text/javascript" id="Water.js"></script>
 <script type="text/javascript" id="Game.js"></script>
+<script type="text/javascript" id="Light.js"></script>
 
 
-<script type="text/javascript" id="PumpkinHead.js"></script>
+<script type="text/javascript" id="Coin.js"></script>
+<script type="text/javascript" id="Fish.js"></script>
 <script type="text/javascript" id="Lesson.js"></script>
 
 <script type="text/javascript" id="loader" src="CanvasLoader.js"></script>

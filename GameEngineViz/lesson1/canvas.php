@@ -48,7 +48,6 @@ foreach($fileitems as $fileitem) {
 <script type="text/javascript" id="DisplayObjectContainer.js"></script>
 <script type="text/javascript" id="Sprite.js"></script>
 <script type="text/javascript" id="AnimatedSprite.js"></script>
-<script type="text/javascript" id="Tween.js"></script>
 <script type="text/javascript" id="Game.js"></script>
 
 
