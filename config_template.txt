@@ -1,0 +1,2 @@
+filename/anchor,pairs;anchor,pairs/read-only/invisible
+filename2/anchor,pairs;anchor,pairs/read-only/invisible

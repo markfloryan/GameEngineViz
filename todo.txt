@@ -1,0 +1,13 @@
+move script to separate .js file
+load initial editor contents from specified file
+look into the bootstrap not being ass
+when page loads it flashes violently
+innerHTML doesn't print a string exactly (requires <br> etc.)
+
+ace paths?
+sanitize code?
+    scope?
+print console on screen?
+    print to both console and html
+    find replace in ace?
+    function override?
